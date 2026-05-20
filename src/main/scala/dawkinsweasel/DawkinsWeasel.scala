@@ -7,7 +7,7 @@ object DawkinsWeasel {
     val alpha = " ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     val weasel = "METHINKS IT IS LIKE A WEASEL"
   // creates a random 28 char string using only chars in alpha
-  def randStr = (1 to 28)
+  def randStr = (1 to weasel.length)
       .map(_ => alpha(Random.nextInt(alpha.length)))
       .mkString  // makes it into a string rather than array
 
@@ -20,7 +20,6 @@ object DawkinsWeasel {
     else
       char
   )
-
   // takes the random string method and does it 100 times
   def multipleRandStrs(singleString: String) = (1 to 100)
     .map(_ => mutate(singleString))
@@ -31,7 +30,7 @@ object DawkinsWeasel {
   // checks the randomString with weasel by matching the positions of each string
   def matches(randomStrings: String) = weasel.zip(randomStrings).count { case (c1, c2) => c1 == c2 }
   // loops through the 100 random strings calls matches method on each one and prints its similarity
-  // takes the random string with the highest score and compares to weasel
+
 
   //takes the String with highest score
   var currentBest = randomStrings.maxBy(matches)
