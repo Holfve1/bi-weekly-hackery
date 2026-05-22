@@ -3,7 +3,7 @@ package dawkinsweasel
 import org.scalatest.flatspec.AnyFlatSpec
 
 class DawkinsWeaselSpec extends AnyFlatSpec {
-  val randStr = DawkinsWeasel.randStr
+  val randStr: String = DawkinsWeasel.randStr
   "randStr " should "have a string length of 28 characters" in {
     assert(randStr.length === 28)
   }
