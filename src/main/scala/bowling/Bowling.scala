@@ -3,7 +3,7 @@ import scala.util.Random
 
 object Bowling {
   def main(args: Array[String]): Unit = {}
-
+// creates a list of the first 9 turns
   var gameScore = (1 to 9).map { _ =>
     val shotOne = Random.nextInt(11)
     if (shotOne == 10) {
@@ -13,7 +13,7 @@ object Bowling {
       List(shotOne, shotTwo)
     }
   }.toList
-
+// creates the final shot with separate rules
   val shot = Random.nextInt(11)
   var finalShot = List(shot)
   if (shot != 10) {
@@ -35,9 +35,10 @@ object Bowling {
     }
   }
   gameScore = gameScore :+ finalShot
-//  dont need to loop to get the numbers joined in 1 list rather than being in several lists in a list
+//  don't need to loop to get the numbers like in python
+//  flatten joins a list of lists in 1 list
   val rolls = gameScore.flatten
-
+// goes through the turn scores and adds them up
   var rollIndex = 0
   var frameScore = (1 to 9).map { _ =>
     val score = if(rolls(rollIndex) == 10) {
@@ -50,7 +51,7 @@ object Bowling {
     rollIndex += (if(rolls(rollIndex) == 10) 1 else 2)
     score
   }.toList
-
+// gets the score fore each turn sequentially
   var runningTotal = 0
   val turnScores = frameScore.map { frameScore =>
     runningTotal += frameScore
