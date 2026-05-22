@@ -4,7 +4,7 @@ import scala.util.Random
 object Bowling {
   def main(args: Array[String]): Unit = {}
 
-  var gameScore = (1 to 9).map {
+  var gameScore = (1 to 9).map { _ =>
     val shotOne = Random.nextInt(11)
     if (shotOne == 10) {
       List(shotOne)
@@ -26,7 +26,7 @@ object Bowling {
   } else if (shot == 10) {
     val secondShot = Random.nextInt(11)
     finalShot = finalShot :+ secondShot
-    if(secondShot == 10) {
+    if (secondShot == 10) {
       val thirdShot = Random.nextInt(11)
       finalShot = finalShot :+ thirdShot
     } else {
@@ -35,4 +35,29 @@ object Bowling {
     }
   }
   gameScore = gameScore :+ finalShot
+//  dont need to loop to get the numbers joined in 1 list rather than being in several lists in a list
+  val rolls = gameScore.flatten
+
+  var rollIndex = 0
+  var frameScore = (1 to 9).map { _ =>
+    val score = if(rolls(rollIndex) == 10) {
+      10 + rolls(rollIndex + 1) + rolls(rollIndex + 2)
+    } else if(rolls(rollIndex) + rolls(rollIndex + 1) == 10) {
+      10 + rolls(rollIndex + 2)
+    } else {
+      rolls(rollIndex) + rolls(rollIndex + 1)
+    }
+    rollIndex += (if(rolls(rollIndex) == 10) 1 else 2)
+    score
+  }.toList
+
+  var runningTotal = 0
+  val turnScores = frameScore.map { frameScore =>
+    runningTotal += frameScore
+    runningTotal
+  }
+
+  println(gameScore)
+  print(turnScores)
+
 }
