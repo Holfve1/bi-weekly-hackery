@@ -4,8 +4,8 @@ import scala.util.Random
 
 object DawkinsWeasel {
   def main(args: Array[String]): Unit  = {}
-    val alpha = " ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    val weasel = "METHINKS IT IS LIKE A WEASEL"
+    val alpha = ". ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    val weasel = "METHINKS IT IS LIKE A WEASEL."
   // creates a random 28 char string using only chars in alpha
   def randStr = (1 to weasel.length)
       .map(_ => alpha(Random.nextInt(alpha.length)))
@@ -29,7 +29,6 @@ object DawkinsWeasel {
 
   // checks the randomString with weasel by matching the positions of each string
   def matches(randomStrings: String) = weasel.zip(randomStrings).count { case (c1, c2) => c1 == c2 }
-  // loops through the 100 random strings calls matches method on each one and prints its similarity
 
 
   //takes the String with highest score

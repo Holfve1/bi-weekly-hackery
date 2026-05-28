@@ -13,9 +13,6 @@ class DawkinsWeaselSpec extends AnyFlatSpec {
   "randStr" should "only contain uppercase characters" in {
     assert(randStr === randStr.toUpperCase)
   }
-//  "randStr" should "not create the same string" in {
-//    assert(DawkinsWeasel.randStr != DawkinsWeasel.randStr)
-//  } // realised this could be a little risky
   "mutate" should "still only have characters in alpha" in {
     assert(DawkinsWeasel.mutate(randStr).forall(char => DawkinsWeasel.alpha.contains(char)))
   }
