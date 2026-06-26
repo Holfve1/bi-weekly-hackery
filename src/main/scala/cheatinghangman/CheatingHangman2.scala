@@ -3,13 +3,44 @@ package cheatinghangman
 import scala.io.StdIn.readLine
 import scala.util.Random
 
-object CheatingHangman {
+object CheatingHangman2 {
+  def isValidGuess(guess: String, lettersGuessed: String): (Boolean, String) = {
+    if (guess.length != 1)
+      (false, "Guess must be 1 character")
+    else if (lettersGuessed.contains(guess))
+      (false,  "You have already guessed that letter")
+    else if (!"qwertyuiopasdfghjklzxcvbnm".contains(guess)) {
+      (false, "Guess must be a letter!")
+    } else {
+      (true, "")
+    }
+  }
+  def underscores(word: String) = {
+    word.map(_ => "_").toVector
+  }
+
+  def filterWords(words: List[String], word: String, guess:String): List[String] = {
+    val guessChar = guess.charAt(0)
+
+    if (!word.contains(guessChar)) {
+      words.filterNot(_.contains(guessChar))
+    } else if (word.contains(guessChar) && words.filterNot(_.contains(guessChar)).nonEmpty) {
+      words.filterNot(_.contains(guessChar))
+    } else (words.forall(_.contains(guessChar)))
+      words.filter(w => word.indices.forall(i => word(i) != guessChar || w(i) == guessChar))
+  }
+  for (i <- word.indices)
+    if (word(i) == guessChar)
+      hiddenWord = hiddenWord.updated(i, guess)
+
   def main(args: Array[String]): Unit  = {
     var words = List("cat", "car", "cow", "dog", "pig")
     var word: String = Random.shuffle(words).head
     var penaltyPoints = 0
     var lettersGuessed = ""
-    var hiddenWord = word.map(_ => "_")
+    var hiddenWord = underscores(word)
+
+
 
     while (hiddenWord.mkString != word && penaltyPoints != 6) {
       if(penaltyPoints == 0)
@@ -82,22 +113,16 @@ object CheatingHangman {
       println(hiddenWord.mkString)
       println()
 
-      val guess: String = readLine("Guess a Letter: ").toLowerCase()
-      if (guess.length != 1)
-        println("guess must be 1 character")
-      else if (lettersGuessed.contains(guess))
-        println("already guessed that")
-      else if (!"qwertyuiopasdfghjklzxcvbnm".contains(guess)) {
-        println()
-        println("Guess must be a letter!")
-      } else {
-        val guessChar = guess.charAt(0)
-        println()
-        lettersGuessed = lettersGuessed :+ guessChar
-        println(s"Guessed letters: ${lettersGuessed}")
-        println()
+      val guess = readLine("Guess a letter: ").toLowerCase()
+      val (valid, msg) = isValidGuess(guess, lettersGuessed)
+      val guessChar = guess.charAt(0)
+      println()
+      lettersGuessed = lettersGuessed :+ guessChar
+      println(s"Guessed letters: ${lettersGuessed}")
+      println()
 
-
+      if (!valid) println(msg)
+      else {
         if (!word.contains(guessChar)) {
           words = words.filterNot(_.contains(guessChar))
           penaltyPoints += 1
@@ -135,27 +160,3 @@ object CheatingHangman {
     }
   }
 }
-
-
-
-
-
-      //    if (word.contains(guessChar)) {
-//      for (i <- word.indices)
-//        if (word(i) == guessChar)
-//          hiddenWord = hiddenWord.updated(i, guess)
-//    } else {
-//      penaltyPoints += 1
-//      println(s"Wrong! Penalty: $penaltyPoints/6")
-//    }
-
-
-// random pick word from list
-// if guess not in word
-  //hangman point and remove words with that letter
-// if guess in word, and words > 2
-  // remove word and random. pick another if guess not in another word
-
-// if guess in word and all other words
-  // keep word and add letter
-  // remove all words that dont have that letter there
